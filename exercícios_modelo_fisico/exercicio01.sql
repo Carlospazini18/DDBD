@@ -67,3 +67,9 @@ insert into consultas (id_consulta, anamnese, date_consulta, hora_consul, cpf_pa
 -- select * from medico;
 -- select * from departamento;
 -- select * from paciente;
+
+-- Exercícios do slide (baseado no database do profesor)
+
+select nome, data_nasc from paciente;
+select count(*) as quant_med from medico;
+select round(avg(timestampdiff(year, data_nasc, curdate())), 0) from paciente;
