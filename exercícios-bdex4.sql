@@ -83,10 +83,49 @@ GROUP BY
 ;
 
 #12. Listar os nomes dos produtos e a quantidade disponível no armazém "Rio de Janeiro".
-SELECT pd.nome_prod,
+SELECT 
+	pd.nome_pro, pa.quantidade
+FROM 
+	produtos pd
+JOIN 
+	produtos_armazens pa ON pa.produto = pd.id_produto
+JOIN
+	armazens arm ON arm.id_armazem = pa.armazem
+WHERE 
+	arm.cidade_armazem = 'Rio de Janeiro'
+;
 
 #13. Mostrar o nome dos fornecedores e a data e hora do último pedido de compra que eles receberam.
+SELECT 
+	forn.nome_for, concat_ws('|', max(pc.data_pedido), max(pc.hora_pedido)) AS 'Data e Hora'
+FROM
+	fornecedores forn
+JOIN
+	pedidos_compra pc ON pc.fornecedor = forn.id_fornecedor
+GROUP BY
+	forn.nome_for
+;
 
 #14. Contar quantos pedidos de compra cada fornecedor recebeu.
+SELECT 
+	forn.nome_for, count(pc.id_pedido) AS 'qntd de pedidos'
+FROM
+	fornecedores forn
+JOIN
+	pedidos_compra pc ON pc.fornecedor = forn.id_fornecedor
+GROUP BY	
+	forn.nome_for
+ORDER BY 
+	forn.nome_for ASC
+;
 
 #15. Para cada armazém, exibir o nome do armazém e a quantidade total de produtos armazenados nele.
+SELECT	
+	arm.nome_armazem, sum(pa.quantidade)
+FROM
+	armazens arm
+JOIN
+	produtos_armazens pa ON pa.armazem = arm.id_armazem
+GROUP BY 
+	arm.nome_armazem 
+;
